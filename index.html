@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Sazón De Lumi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: linear-gradient(to bottom right, #ffffff, #f7efe0);
+      margin: 0;
+      padding: 0;
+      color: #2e2e2e;
+    }
+    header {
+      background: linear-gradient(to right, #006837, #ffcc00, #c62828);
+      color: white;
+      padding: 1em;
+      text-align: center;
+      font-size: 1.8em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .nombre-container {
+      background-color: #fff3cd;
+      padding: 2em;
+      text-align: center;
+      height: 100vh;
+    }
+    .nombre-container input {
+      padding: 0.5em;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+      margin-top: 1em;
+    }
+    .nombre-container button {
+      margin-top: 1em;
+      padding: 0.6em 1.5em;
+      font-size: 1em;
+      background-color: #c62828;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #contenido-principal {
+      display: none;
+    }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      background-color: #ffcc00;
+      justify-content: center;
+    }
+    .tab-button {
+      padding: 10px 16px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-weight: bold;
+      color: #006837;
+      transition: background 0.3s, color 0.3s;
+    }
+    .tab-button:hover {
+      background-color: #fff3cd;
+    }
+    .tab-button.active {
+      background-color: #006837;
+      color: white;
+      border-radius: 5px 5px 0 0;
+    }
+    .tab-content {
+      display: none;
+      padding: 2em;
+      background-color: #fff;
+      border: 2px solid #006837;
+      margin: 0 auto;
+      max-width: 800px;
+      border-top: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .paquete {
+      background-color: #fffbe6;
+      border-left: 8px solid #ff6f00;
+      margin: 1em 0;
+      padding: 1.5em;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .paquete h3 {
+      margin-top: 0;
+      color: #c62828;
+    }
+    .paquete p {
+      margin: 0.5em 0 1em;
+    }
+    .paquete input[type="number"] {
+      width: 100px;
+      padding: 8px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      -moz-appearance: textfield;
+    }
+    .paquete input[type="number"]::-webkit-outer-spin-button,
+    .paquete input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .ordenar {
+      margin-top: 1em;
+      background-color: #c62828;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .ordenar:disabled {
+      background-color: #bbb;
+      cursor: not-allowed;
+    }
+    .total {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #006837;
+    }
+    label {
+      display: block;
+      margin: 0.5em 0;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>La Sazón De Lumi</h1>
+  </header>
+
+  <div class="nombre-container" id="nombreEntrada">
+    <h2>Bienvenido</h2>
+    <p>Por favor, ingresa tu nombre para continuar:</p>
+    <input type="text" id="nombreCliente" placeholder="Tu nombre" />
+    <br>
+    <button onclick="mostrarMenu()">Continuar</button>
+  </div>
+
+  <div id="contenido-principal">
+    <div class="tabs">
+  <button class="tab-button active" data-tab="taquiza">Taquiza</button>
+  <button class="tab-button" data-tab="chilaquiles">Chilaquiles</button>
+  <button class="tab-button" data-tab="enchiladas">Enchiladas</button>
+  <button class="tab-button" data-tab="antojitos">Antojitos</button>
+  <button class="tab-button" data-tab="pozole">Pozole</button>
+  <button class="tab-button" data-tab="quesadillas">Quesadillas</button>
+</div>
+
+<!-- TAQUIZA -->
+<div id="taquiza" class="tab-content active">
+  <div class="paquete">
+    <h3>Taquiza Básica - $90 por persona</h3>
+    <p>Complementos: salsa verde y roja, habaneros con cebolla morada o piña, queso, tortilla de máquina.</p>
+    <input type="number" id="personas1" placeholder="Mínimo 30 personas" min="30" oninput="calcularTotal(1, 90)">
+    <div class="error" id="error1"></div>
+    <div class="total" id="total1"></div>
+    <button class="ordenar" onclick="ordenar(1, 90, 'Taquiza Básica')">Ordenar</button>
+  </div>
+  <div class="paquete">
+    <h3>Taquiza Premium - $130 por persona</h3>
+    <p>Complementos: salsa verde y roja, habaneros con cebolla morada o piña, queso, tortilla hecha a mano en el momento.</p>
+    <input type="number" id="personas2" placeholder="Mínimo 30 personas" min="30" oninput="calcularTotal(2, 130)">
+    <div class="error" id="error2"></div>
+    <div class="total" id="total2"></div>
+    <button class="ordenar" onclick="ordenar(2, 130, 'Taquiza Premium')">Ordenar</button>
+  </div>
+</div>
+
+<!-- CHILAQUILES -->
+<div id="chilaquiles" class="tab-content">
+  <div class="paquete">
+    <h3>Chilaquiles - $90 por persona</h3>
+    <p>Incluye: chilaquiles, queso, crema, proteina, porción de frijoles.</p>
+    <label><input type="radio" name="chilaquiles_opcion" value="normales"> Rojos</label>
+    <label><input type="radio" name="chilaquiles_opcion" value="gratinados"> Suizos</label>
+    <input type="number" id="personas3" placeholder="Mínimo 30 personas" min="30" oninput="calcularTotal(3, 90)">
+    <div class="error" id="error3"></div>
+    <div class="total" id="total3"></div>
+    <button class="ordenar" onclick="ordenarChilaquiles(3, 90)">Ordenar</button>
+  </div>
+</div>
+
+<!-- ENCHILADAS -->
+<div id="enchiladas" class="tab-content">
+  <div class="paquete">
+    <h3>Enchiladas Básicas - $130 por persona</h3>
+    <p>Incluye: 3 salsas a elección, 6 enchiladas, frijoles, queso, crema, aguacate y porción de cecina.</p>
+    <input type="number" id="personas4" placeholder="Mínimo 30 personas" min="30" oninput="calcularTotal(4, 130)">
+    <div class="error" id="error4"></div>
+    <div class="total" id="total4"></div>
+    <button class="ordenar" onclick="ordenar(4, 130, 'Enchiladas Básicas')">Ordenar</button>
+  </div>
+  <div class="paquete">
+    <h3>Enchiladas Premium - $160 por persona</h3>
+    <p>Incluye: 4 salsas a elección, enchiladas ilimitadas, frijoles, queso, crema, aguacate y porción de cecina.</p>
+    <input type="number" id="personas5" placeholder="Mínimo 30 personas" min="30" oninput="calcularTotal(5, 160)">
+    <div class="error" id="error5"></div>
+    <div class="total" id="total5"></div>
+    <button class="ordenar" onclick="ordenar(5, 160, 'Enchiladas Premium')">Ordenar</button>
+  </div>
+</div>
+
+<!-- ANTOJITOS -->
+<div id="antojitos" class="tab-content">
+  <div class="paquete">
+    <h3>Antojitos Mexicanos - $160 por persona</h3>
+    <p>Incluye: un pozole chico, 6 piezas de antojitos con sus complementos.</p>
+    <input type="number" id="personas6" placeholder="Mínimo 30 personas" min="30" oninput="calcularTotal(6, 160)">
+    <div class="error" id="error6"></div>
+    <div class="total" id="total6"></div>
+    <button class="ordenar" onclick="ordenar(6, 160, 'Antojitos Mexicanos')">Ordenar</button>
+  </div>
+</div>
+
+<!-- POZOLE -->
+<div id="pozole" class="tab-content">
+  <div class="paquete">
+    <h3>Pozole Rojo - $90 por persona</h3>
+    <p>Incluye: lechuga, cebolla, rábanos, orégano, chilito, limones, crema, tostadas, desechables.</p>
+    <input type="number" id="personas7" placeholder="Mínimo 30 personas" min="30" oninput="calcularTotal(7, 90)">
+    <div class="error" id="error7"></div>
+    <div class="total" id="total7"></div>
+    <button class="ordenar" onclick="ordenar(7, 90, 'Pozole Rojo')">Ordenar</button>
+  </div>
+</div>
+
+<!-- QUESADILLAS -->
+<div id="quesadillas" class="tab-content">
+  <div class="paquete">
+    <h3>Servicio de Quesadillas - $90 por persona</h3>
+    <p>Incluye: 4 quesadillas (2 de queso asadero y 2 de deshebrada o pollo), lechuga, queso, crema, aguacate, cebolla, tomate, salsas y zanahoria.</p>
+    <input type="number" id="personas8" placeholder="Mínimo 30 personas" min="30" oninput="calcularTotal(8, 90)">
+    <div class="error" id="error8"></div>
+    <div class="total" id="total8"></div>
+    <button class="ordenar" onclick="ordenar(8, 90, 'Quesadillas')">Ordenar</button>
+  </div>
+</div>
+  </div>
+
+  <script>
+    function mostrarMenu() {
+      const nombre = document.getElementById('nombreCliente').value.trim();
+      if (!nombre) {
+        alert('Por favor, ingresa tu nombre.');
+        return;
+      }
+      localStorage.setItem('cliente', nombre);
+      document.getElementById('nombreEntrada').style.display = 'none';
+      document.getElementById('contenido-principal').style.display = 'block';
+    }
+      // Activar tabs
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+
+        button.classList.add('active');
+        document.getElementById(button.dataset.tab).classList.add('active');
+      });
+    });
+function calcularTotal(id, precio) {
+  const input = document.getElementById(`personas${id}`);
+  const totalDiv = document.getElementById(`total${id}`);
+  const errorDiv = document.getElementById(`error${id}`);
+  const personas = parseInt(input.value);
+
+  if (!isNaN(personas) && personas >= 30) {
+    const total = personas * precio;
+    totalDiv.textContent = `Total: $${total} MXN`;
+    errorDiv.textContent = '';
+  } else {
+    totalDiv.textContent = '';
+    errorDiv.textContent = 'Ingrese 30 o más personas';
+  }
+}
+
+function ordenar(id, precio, paquete) {
+  const input = document.getElementById(`personas${id}`);
+  const personas = parseInt(input.value);
+  const errorDiv = document.getElementById(`error${id}`);
+
+  if (isNaN(personas) || personas < 30) {
+    errorDiv.textContent = 'Ingrese 30 o más personas';
+    return;
+  }
+
+  const total = personas * precio;
+  const cliente = localStorage.getItem('cliente') || 'Cliente';
+  const mensaje = `Hola! Soy ${cliente} y quiero ordenar el paquete: ${paquete}
+Número de personas: ${personas}
+Total a pagar: $${total} MXN`;
+  const whatsappURL = `https://wa.me/528332656545?text=${encodeURIComponent(mensaje)}`;
+  window.open(whatsappURL, '_blank');
+}
+
+function ordenarChilaquiles(id, precio) {
+  const input = document.getElementById(`personas${id}`);
+  const personas = parseInt(input.value);
+  const errorDiv = document.getElementById(`error${id}`);
+  const opcion = document.querySelector('input[name="chilaquiles_opcion"]:checked');
+
+  if (!opcion) {
+    errorDiv.textContent = 'Selecciona una opción de chilaquiles';
+    return;
+  }
+
+  if (isNaN(personas) || personas < 30) {
+    errorDiv.textContent = 'Ingrese 30 o más personas';
+    return;
+  }
+
+  const total = personas * precio;
+  const cliente = localStorage.getItem('cliente') || 'Cliente';
+  const mensaje = `Hola! Soy ${cliente} y quiero ordenar Chilaquiles (${opcion.value})
+Número de personas: ${personas}
+Total a pagar: $${total} MXN`;
+  const whatsappURL = `https://wa.me/528334374822?text=${encodeURIComponent(mensaje)}`;
+  window.open(whatsappURL, '_blank');
+}
+
+// Activar tabs
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+
+        button.classList.add('active');
+        document.getElementById(button.dataset.tab).classList.add('active');
+      });
+    });
+</script>
+</body>
+</html>
