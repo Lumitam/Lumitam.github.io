@@ -305,9 +305,9 @@ function ordenar(id, precio, paquete) {
 
   const total = personas * precio;
   const cliente = localStorage.getItem('cliente') || 'Cliente';
-  const mensaje = `Hola! Soy ${cliente} y quiero ordenar el paquete: ${paquete}
+  const mensaje = `Hola! Soy ${cliente} y deseo información mas detallada acerca del paquete: ${paquete}
 Número de personas: ${personas}
-Total a pagar: $${total} MXN`;
+Costo: $${total} MXN`;
   const whatsappURL = `https://wa.me/528332656545?text=${encodeURIComponent(mensaje)}`;
   window.open(whatsappURL, '_blank');
 }
